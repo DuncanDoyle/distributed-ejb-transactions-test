@@ -1,0 +1,14 @@
+#
+# Adds outbound EJB connection.
+#
+batch
+/core-service=management/security-realm=ejb-security-realm:add()
+/core-service=management/security-realm=ejb-security-realm/server-identity=secret:add(value="amJvc3NAMDE=")
+/socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=remote-ejb:add(host=batchconsumer, port=4447)
+/subsystem=remoting/remote-outbound-connection=remote-ejb-connection:add(outbound-socket-binding-ref="remote-ejb", security-realm="ejb-security-realm", username="guest")
+/subsystem=remoting/remote-outbound-connection=remote-ejb-connection/property=SASL_POLICY_NOANONYMOUS:add(value=false)
+/subsystem=remoting/remote-outbound-connection=remote-ejb-connection/property=SSL_ENABLED:add(value=false)
+run-batch
+
+
+

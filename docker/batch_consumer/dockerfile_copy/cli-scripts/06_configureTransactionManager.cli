@@ -1,0 +1,4 @@
+batch
+/subsystem=transactions:write-attribute(name=node-identifier, value=2)
+run-batch
+

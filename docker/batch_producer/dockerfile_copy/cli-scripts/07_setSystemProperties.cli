@@ -1,0 +1,9 @@
+#
+# Sets system property.
+#
+/system-property=batch.size:add(value=2500)
+/system-property=messages.number:add(value=12)
+# Decreasing the scan-interval to demonstrate the problem.
+/system-property=RecoveryEnvironmentBean.periodicRecoveryPeriod:add(value=30)
+
+

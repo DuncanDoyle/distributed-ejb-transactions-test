@@ -1,0 +1,9 @@
+#
+# Configure remote connection to HornetQ.
+#
+batch
+/socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=messaging-remote:add(host=hornetq, port=5445)
+/subsystem=messaging/hornetq-server=default/remote-connector=netty-remote:add(socket-binding=messaging-remote)
+/subsystem=messaging/hornetq-server=default/pooled-connection-factory=hornetq-ra-remote:add(transaction=xa, connector={"netty-remote"=>{null}}, entries=[{"java:/RemoteJmsXA"}], user=guest, password="jboss@01")
+run-batch
+

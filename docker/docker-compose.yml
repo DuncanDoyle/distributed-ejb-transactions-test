@@ -1,0 +1,53 @@
+postgresql:
+  image: ddoyle/postgresql-ejb-tm-bug:9.3
+  ports:
+    - "15432:5432"
+
+batchProducer:
+  image: ddoyle/jboss-ejb-tm-bug-batch-producer:1.0
+  ports:
+    - "18080:8080"
+    - "19990:9990"
+    - "19999:9999"  
+  links:
+    - postgresql:postgresql
+    - batchConsumer:batchconsumer
+
+batchConsumer:
+  image: ddoyle/jboss-ejb-tm-bug-batch-consumer:1.0
+  ports:
+    - "28080:8080"
+    - "29990:9990"
+    - "29999:9999"  
+  links:
+    - hornetq:hornetq
+    - postgresql:postgresql
+
+hornetq:
+  image: ddoyle/jboss-ejb-tm-bug-hornetq:1.0
+  ports:
+    - "34447:4447"
+    - "35445:5445"
+    - "39990:9990"
+    - "39999:9999"  
+#  volumes_from:
+#    - nexus-data-default
+#    - nexus-data-thirdparty
+#    - nexus-data-distribution
+#bpmsData:
+#  image: ddoyle/data_base:1.0.0
+#  command: true
+#  volumes:
+#    - /bpms-data
+#bpmSuiteWebserviceBasicAuth:
+#   image: ddoyle/bpmsuite-webservice-basic-auth:1.0.0
+#   volumes_from:
+#    - bpmsData
+#   links:
+#    - postgresql:postgresql
+#    - nexusServer:nexus
+#   ports:
+#    - "8080"
+#    - "9990"
+#    - "9999"
+#    - "8787"

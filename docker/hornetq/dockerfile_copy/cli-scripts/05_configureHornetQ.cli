@@ -1,0 +1,5 @@
+batch
+/subsystem=messaging/hornetq-server=default/address-setting=#:write-attribute(name=max-size-bytes, value=104857600L)
+/subsystem=messaging/hornetq-server=default/address-setting=#:write-attribute(name=address-full-policy, value=PAGE)
+run-batch
+

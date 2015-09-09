@@ -1,0 +1,4 @@
+batch
+/subsystem=messaging/hornetq-server=default/jms-queue=BatchQueue:add(durable=true, entries=["queue/BatchQueue"])
+run-batch
+
