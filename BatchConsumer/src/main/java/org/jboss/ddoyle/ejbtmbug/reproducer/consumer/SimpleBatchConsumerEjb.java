@@ -1,4 +1,4 @@
-package org.jboss.ddoyle.accenture.reproducer.batch.consumer;
+package org.jboss.ddoyle.ejbtmbug.reproducer.consumer;
 
 import javax.annotation.Resource;
 import javax.ejb.Remote;
@@ -22,25 +22,25 @@ import org.slf4j.LoggerFactory;
 public class SimpleBatchConsumerEjb implements BatchConsumerEjb {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(SimpleBatchConsumerEjb.class);
-	
-	@Resource(mappedName="java:/RemoteJmsXA")
+
+	@Resource(mappedName = "java:/RemoteJmsXA")
 	private ConnectionFactory cf;
-	
-	//Sends the content of the record to HornetQ in a text-message.
+
+	// Sends the content of the record to HornetQ in a text-message.
 	@TransactionAttribute(TransactionAttributeType.REQUIRED)
 	@Override
 	public void processRecord(String record) {
 		LOGGER.info("Processing record: " + record);
 		Connection connection = null;
 		try {
-			 connection = cf.createConnection("guest", "jboss@01");
-			 Session session = connection.createSession(true, Session.AUTO_ACKNOWLEDGE);
-			 Queue queue = session.createQueue("BatchQueueOutput");
-			 MessageProducer producer = session.createProducer(queue);
-			 TextMessage message = session.createTextMessage(record);
-			 producer.send(message);
-			 producer.close();
-			 session.close();
+			connection = cf.createConnection("guest", "jboss@01");
+			Session session = connection.createSession(true, Session.AUTO_ACKNOWLEDGE);
+			Queue queue = session.createQueue("BatchQueueOutput");
+			MessageProducer producer = session.createProducer(queue);
+			TextMessage message = session.createTextMessage(record);
+			producer.send(message);
+			producer.close();
+			session.close();
 		} catch (JMSException jmse) {
 			String message = "Error sending JMS message";
 			LOGGER.error(message, jmse);
@@ -55,5 +55,5 @@ public class SimpleBatchConsumerEjb implements BatchConsumerEjb {
 			}
 		}
 	}
-	
+
 }
